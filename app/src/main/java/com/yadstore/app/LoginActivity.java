@@ -14,12 +14,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         
         // Configure Google Sign-In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("666352014774-8q7t7g6hq2.apps.googleusercontent.com")
+            .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build();
         googleSignInClient = GoogleSignIn.getClient(this, gso);
@@ -66,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
         btnGoogle.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View v) {
-                loginWithGoogle();
+                signInWithGoogle();
             }
         });
         
@@ -107,15 +110,23 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finish();
                     } else {
-                        Toast.makeText(LoginActivity.this, "Login gagal!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this, 
+                            "Login gagal: " + task.getException().getMessage(), 
+                            Toast.LENGTH_LONG).show();
                     }
                 }
             });
     }
     
-    private void loginWithGoogle() {
-        Intent signInIntent = googleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+    private void signInWithGoogle() {
+        // Sign out first to ensure clean state
+        googleSignInClient.signOut().addOnCompleteListener(this, new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Intent signInIntent = googleSignInClient.getSignInIntent();
+                startActivityForResult(signInIntent, RC_SIGN_IN);
+            }
+        });
     }
     
     @Override
@@ -129,8 +140,9 @@ public class LoginActivity extends AppCompatActivity {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
-                Toast.makeText(this, "Google sign-in failed: " + e.getMessage(), 
-                             Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, 
+                    "Google sign-in gagal: " + e.getMessage(), 
+                    Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -146,30 +158,33 @@ public class LoginActivity extends AppCompatActivity {
                         FirebaseUser user = mAuth.getCurrentUser();
                         
                         if (user != null) {
-                            // Check if user exists in Firestore
-                            checkAndCreateUser(user);
+                            createUserInFirestore(user);
                             
-                            Toast.makeText(LoginActivity.this, "Google login berhasil!", 
-                                         Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, 
+                                "Google login berhasil!", 
+                                Toast.LENGTH_SHORT).show();
+                            
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();
                         }
                     } else {
-                        Toast.makeText(LoginActivity.this, "Authentication failed!", 
-                                     Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, 
+                            "Firebase auth gagal: " + task.getException().getMessage(), 
+                            Toast.LENGTH_LONG).show();
                     }
                 }
             });
     }
     
-    private void checkAndCreateUser(FirebaseUser user) {
-        db.collection("users").document(user.getUid())
+    private void createUserInFirestore(FirebaseUser user) {
+        String userId = user.getUid();
+        
+        db.collection("users").document(userId)
             .get()
-            .addOnSuccessListener(new com.google.android.gms.tasks.OnSuccessListener<com.google.firebase.firestore.DocumentSnapshot>() {
+            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
-                public void onSuccess(com.google.firebase.firestore.DocumentSnapshot documentSnapshot) {
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
                     if (!documentSnapshot.exists()) {
-                        // Create new user
                         Map<String, Object> userData = new HashMap<>();
                         userData.put("name", user.getDisplayName() != null ? user.getDisplayName() : "User");
                         userData.put("email", user.getEmail());
@@ -180,7 +195,22 @@ public class LoginActivity extends AppCompatActivity {
                         userData.put("isActive", true);
                         userData.put("authProvider", "google");
                         
-                        db.collection("users").document(user.getUid()).set(userData);
+                        db.collection("users").document(userId)
+                            .set(userData)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    // User created
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(LoginActivity.this, 
+                                        "Gagal buat user: " + e.getMessage(), 
+                                        Toast.LENGTH_SHORT).show();
+                                }
+                            });
                     }
                 }
             });
