@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Round background -->
+    <path
+        android:fillColor="#667eea"
+        android:pathData="M54,54m-54,0a54,54 0,1 1,108 0a54,54 0,1 1,-108 0"/>
+    
+    <!-- Store icon -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M35,40L73,40L73,75L35,75Z"/>
+    
+    <!-- Awning -->
+    <path
+        android:fillColor="#FFD700"
+        android:pathData="M30,35L54,25L78,35L78,42L30,42Z"/>
+    
+</vector>
