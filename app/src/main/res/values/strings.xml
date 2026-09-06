@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">YadStore</string>
+    
+    <!-- Google Sign-In -->
+    <string name="default_web_client_id">666352014774-8q7t7g6hq2.apps.googleusercontent.com</string>
+    
+    <!-- Login -->
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login_google">Login dengan Google</string>
+    <string name="login_success">Login berhasil!</string>
+    <string name="login_failed">Login gagal</string>
+    
+    <!-- Main -->
+    <string name="welcome">Selamat datang</string>
+    <string name="topup">Top Up</string>
+    <string name="history">History</string>
+    <string name="profile">Profile</string>
+    <string name="logout">Logout</string>
+</resources>
