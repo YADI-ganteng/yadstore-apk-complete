@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0f0f1a">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+        
+        <TextView
+            android:id="@+id/tv_welcome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Welcome!"
+            android:textSize="22sp"
+            android:textColor="#FFF"
+            android:layout_marginBottom="30dp"/>
+        
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PILIH GAME"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#FFF"
+            android:layout_marginBottom="15dp"/>
+        
+        <Button android:id="@+id/btn_ml" android:layout_width="match_parent" android:layout_height="60dp" android:text="🎮 Mobile Legends" android:background="#1a237e" android:layout_marginBottom="10dp"/>
+        <Button android:id="@+id/btn_ff" android:layout_width="match_parent" android:layout_height="60dp" android:text="🔥 Free Fire" android:background="#b71c1c" android:layout_marginBottom="10dp"/>
+        <Button android:id="@+id/btn_pubg" android:layout_width="match_parent" android:layout_height="60dp" android:text="🔫 PUBG Mobile" android:background="#1b5e20" android:layout_marginBottom="10dp"/>
+        <Button android:id="@+id/btn_gi" android:layout_width="match_parent" android:layout_height="60dp" android:text="✨ Genshin Impact" android:background="#4a148c" android:layout_marginBottom="10dp"/>
+        <Button android:id="@+id/btn_hsr" android:layout_width="match_parent" android:layout_height="60dp" android:text="🚂 Honkai Star Rail" android:background="#e65100" android:layout_marginBottom="10dp"/>
+        <Button android:id="@+id/btn_val" android:layout_width="match_parent" android:layout_height="60dp" android:text="🎯 Valorant" android:background="#b71c1c" android:layout_marginBottom="10dp"/>
+        <Button android:id="@+id/btn_rbx" android:layout_width="match_parent" android:layout_height="60dp" android:text="🧱 Roblox" android:background="#616161" android:layout_marginBottom="10dp"/>
+        <Button android:id="@+id/btn_steam" android:layout_width="match_parent" android:layout_height="60dp" android:text="🎮 Steam Wallet" android:background="#263238" android:layout_marginBottom="20dp"/>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            
+            <Button android:id="@+id/btn_history" android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" android:text="History" android:background="#1a1a2e" android:textColor="#FFF"/>
+            <Button android:id="@+id/btn_profile" android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" android:text="Profile" android:background="#1a1a2e" android:textColor="#FFF"/>
+            <Button android:id="@+id/btn_logout" android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" android:text="Logout" android:background="#FF4444" android:textColor="#FFF"/>
+        </LinearLayout>
+        
+    </LinearLayout>
+</ScrollView>
