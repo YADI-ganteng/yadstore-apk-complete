@@ -9,16 +9,11 @@ android {
     
     defaultConfig {
         applicationId "com.yadstore.app"
-        minSdk 21          // Android 5.0 Lollipop
+        minSdk 21
         targetSdk 34
         versionCode 1
         versionName "1.0"
-        
-        // Support untuk perangkat lama
         multiDexEnabled true
-        
-        // Vector drawables untuk Android 5.0+
-        vectorDrawables.useSupportLibrary = true
     }
     
     buildTypes {
@@ -36,15 +31,9 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-        // Support Java 8 di Android lama
         coreLibraryDesugaringEnabled true
     }
     
-    buildFeatures {
-        viewBinding true
-    }
-    
-    // Support untuk Android 5.0+
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
@@ -75,7 +64,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.android.gms:play-services-auth:20.7.0'
     
-    // Java 8 desugaring untuk Android lama
+    // Java 8 desugaring
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
     
     testImplementation 'junit:junit:4.13.2'
