@@ -25,27 +25,29 @@ jobs:
     - name: Grant gradlew permission
       run: chmod +x gradlew
     
+    - name: List available tasks
+      run: ./gradlew tasks --no-daemon
+    
     - name: Build Debug APK
-      run: |
-        ./gradlew clean
-        ./gradlew assembleDebug --no-daemon --stacktrace
+      run: ./gradlew :app:assembleDebug --no-daemon
     
     - name: List APK files
-      run: find app/build/outputs -name "*.apk" -type f
+      run: find . -name "*.apk" -type f
     
     - name: Upload Debug APK
       uses: actions/upload-artifact@v4
       with:
         name: YadStore-Debug-APK
-        path: app/build/outputs/apk/debug/app-debug.apk
+        path: app/build/outputs/apk/debug/
         compression-level: 6
         overwrite: true
     
     - name: Create Release
-      if: github.event_name == 'push'
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       uses: softprops/action-gh-release@v2
       with:
-        files: app/build/outputs/apk/debug/app-debug.apk
+        files: |
+          app/build/outputs/apk/debug/app-debug.apk
         tag_name: v1.0.${{ github.run_number }}
         name: Release v1.0.${{ github.run_number }}
         draft: false
