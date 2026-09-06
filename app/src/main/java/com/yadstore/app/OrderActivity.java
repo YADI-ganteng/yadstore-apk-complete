@@ -63,31 +63,47 @@ public class OrderActivity extends AppCompatActivity {
         tvGameTitle = findViewById(R.id.tv_game_title);
         itemsContainer = findViewById(R.id.items_container);
         
-        tvGameTitle.setText(gameName);
-        displayItems();
+        if (gameName != null) {
+            tvGameTitle.setText(gameName);
+            displayItems();
+        }
     }
     
     private void displayItems() {
         String[] items = GAME_ITEMS.get(gameName);
         long[] prices = GAME_PRICES.get(gameName);
         
-        if (items == null) return;
+        if (items == null || prices == null) {
+            return;
+        }
         
         for (int i = 0; i < items.length; i++) {
             final String itemName = items[i];
             final long modalPrice = prices[i];
             final long sellPrice = Math.round(modalPrice * 1.1);
-            final long labelPrice = Math.round(sellPrice / 0.8);
             
             Button btnItem = new Button(this);
-            btnItem.setText(itemName + "\nRp " + String.format("%,d", sellPrice));
-            btnItem.setOnClickListener(v -> {
-                Intent intent = new Intent(this, PaymentActivity.class);
-                intent.putExtra("gameName", gameName);
-                intent.putExtra("itemName", itemName);
-                intent.putExtra("sellPrice", sellPrice);
-                startActivity(intent);
+            btnItem.setText(itemName + " - Rp " + String.format("%,d", sellPrice));
+            btnItem.setTextColor(0xFFFFFFFF);
+            btnItem.setBackgroundColor(0xFF1a1a2e);
+            btnItem.setPadding(10, 15, 10, 15);
+            btnItem.setOnClickListener(new android.view.View.OnClickListener() {
+                @Override
+                public void onClick(android.view.View v) {
+                    Intent intent = new Intent(OrderActivity.this, PaymentActivity.class);
+                    intent.putExtra("gameName", gameName);
+                    intent.putExtra("itemName", itemName);
+                    intent.putExtra("sellPrice", sellPrice);
+                    startActivity(intent);
+                }
             });
+            
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(0, 0, 0, 10);
+            btnItem.setLayoutParams(params);
             
             itemsContainer.addView(btnItem);
         }
