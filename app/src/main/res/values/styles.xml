@@ -1,5 +1,4 @@
 <resources>
-    <!-- Base Theme untuk Android 5.0+ -->
     <style name="Theme.YadStore" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">#667eea</item>
         <item name="colorPrimaryDark">#0f0f1a</item>
