@@ -1,0 +1,18 @@
+metadata:
+  provider: postgres
+  region: ap-southeast-1
+
+auth:
+  enabled: true
+  emailPassword: true
+  google: false
+
+database:
+  postgres:
+    version: 14
+
+storage:
+  enabled: true
+
+functions:
+  enabled: true
