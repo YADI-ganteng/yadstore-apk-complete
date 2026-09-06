@@ -1,14 +1,17 @@
 package com.yadstore.app;
 
 import android.os.Bundle;
-import android.widget.*;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import java.util.*;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnFailureListener;
 
 public class HistoryActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -78,8 +81,9 @@ public class HistoryActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Exception e) {
                     TextView tvError = new TextView(HistoryActivity.this);
-                    tvError.setText("Gagal memuat pesanan: " + e.getMessage());
+                    tvError.setText("Gagal: " + e.getMessage());
                     tvError.setTextColor(0xFFFF4444);
+                    tvError.setTextSize(14);
                     ordersContainer.addView(tvError);
                 }
             });
