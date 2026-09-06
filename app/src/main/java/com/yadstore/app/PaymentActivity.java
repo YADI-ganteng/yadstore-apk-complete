@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.*;
 
@@ -35,7 +36,12 @@ public class PaymentActivity extends AppCompatActivity {
         radioPayment = findViewById(R.id.radio_payment);
         btnSubmit = findViewById(R.id.btn_submit);
         
-        btnSubmit.setOnClickListener(v -> submitOrder());
+        btnSubmit.setOnClickListener(new android.view.View.OnClickListener() {
+            @Override
+            public void onClick(android.view.View v) {
+                submitOrder();
+            }
+        });
     }
     
     private void submitOrder() {
@@ -50,8 +56,23 @@ public class PaymentActivity extends AppCompatActivity {
         }
         
         String[] paymentMethods = {"DANA", "GoPay", "SeaBank"};
-        String paymentMethod = paymentMethods[selectedPaymentId];
-        String userId = mAuth.getCurrentUser().getUid();
+        String paymentMethod = "";
+        
+        if (selectedPaymentId == R.id.rb_dana) {
+            paymentMethod = "DANA";
+        } else if (selectedPaymentId == R.id.rb_gopay) {
+            paymentMethod = "GoPay";
+        } else if (selectedPaymentId == R.id.rb_seabank) {
+            paymentMethod = "SeaBank";
+        }
+        
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user == null) {
+            Toast.makeText(this, "Silakan login dulu!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        
+        String userId = user.getUid();
         
         Map<String, Object> order = new HashMap<>();
         order.put("userId", userId);
@@ -67,12 +88,18 @@ public class PaymentActivity extends AppCompatActivity {
         order.put("createdAt", System.currentTimeMillis());
         
         db.collection("orders").add(order)
-            .addOnSuccessListener(doc -> {
-                Toast.makeText(this, "Pesanan berhasil! ID: " + doc.getId(), Toast.LENGTH_LONG).show();
-                finish();
+            .addOnSuccessListener(new com.google.android.gms.tasks.OnSuccessListener<com.google.firebase.firestore.DocumentReference>() {
+                @Override
+                public void onSuccess(com.google.firebase.firestore.DocumentReference documentReference) {
+                    Toast.makeText(PaymentActivity.this, "Pesanan berhasil!", Toast.LENGTH_LONG).show();
+                    finish();
+                }
             })
-            .addOnFailureListener(e -> {
-                Toast.makeText(this, "Gagal: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            .addOnFailureListener(new com.google.android.gms.tasks.OnFailureListener() {
+                @Override
+                public void onFailure(Exception e) {
+                    Toast.makeText(PaymentActivity.this, "Gagal: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             });
     }
 }
