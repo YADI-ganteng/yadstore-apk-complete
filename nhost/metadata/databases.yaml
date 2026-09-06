@@ -1,0 +1,15 @@
+version: 3
+sources:
+  - name: default
+    kind: postgres
+    tables:
+      - table:
+          name: users
+      - table:
+          name: orders
+      - table:
+          name: games
+    configuration:
+      connection_info:
+        database_url:
+          from_env: NHOST_DATABASE_URL
