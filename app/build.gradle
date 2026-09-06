@@ -57,14 +57,12 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.multidex:multidex:2.0.1'
     
-    // Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:32.7.0')
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.android.gms:play-services-auth:20.7.0'
     
-    // Java 8 desugaring
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
     
     testImplementation 'junit:junit:4.13.2'
