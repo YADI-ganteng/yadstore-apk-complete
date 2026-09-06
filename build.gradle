@@ -1,10 +1,20 @@
+// Top-level build file
 buildscript {
-    repositories { google(); mavenCentral() }
+    repositories {
+        google()
+        mavenCentral()
+    }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.1.0'
         classpath 'com.google.gms:google-services:4.4.0'
     }
 }
+
+// Remove allprojects repositories - settings.gradle handles it
 allprojects {
-    repositories { google(); mavenCentral() }
+    // Repositories are configured in settings.gradle
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }
