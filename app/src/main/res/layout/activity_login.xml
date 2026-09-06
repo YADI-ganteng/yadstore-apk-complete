@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="30dp"
+    android:gravity="center"
+    android:background="#0f0f1a">
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LOGIN"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:textColor="#667eea"
+        android:layout_marginBottom="40dp"/>
+    
+    <EditText
+        android:id="@+id/et_email"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:textColor="#FFF"
+        android:textColorHint="#888"
+        android:background="#1a1a2e"
+        android:padding="15dp"
+        android:layout_marginBottom="15dp"/>
+    
+    <EditText
+        android:id="@+id/et_password"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:textColor="#FFF"
+        android:textColorHint="#888"
+        android:background="#1a1a2e"
+        android:padding="15dp"
+        android:layout_marginBottom="25dp"/>
+    
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:text="LOGIN"
+        android:textSize="18sp"
+        android:background="#667eea"
+        android:layout_marginBottom="15dp"/>
+    
+    <TextView
+        android:id="@+id/tv_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Belum punya akun? Register"
+        android:textSize="14sp"
+        android:textColor="#667eea"/>
+    
+</LinearLayout>
