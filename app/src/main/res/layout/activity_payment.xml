@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0f0f1a">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+        
+        <EditText android:id="@+id/et_game_id" android:layout_width="match_parent" android:layout_height="55dp" android:hint="ID Game" android:textColor="#FFF" android:textColorHint="#888" android:background="#1a1a2e" android:padding="15dp" android:layout_marginBottom="10dp"/>
+        <EditText android:id="@+id/et_server_id" android:layout_width="match_parent" android:layout_height="55dp" android:hint="Server (opsional)" android:textColor="#FFF" android:textColorHint="#888" android:background="#1a1a2e" android:padding="15dp" android:layout_marginBottom="10dp"/>
+        <EditText android:id="@+id/et_email" android:layout_width="match_parent" android:layout_height="55dp" android:hint="Email" android:inputType="textEmailAddress" android:textColor="#FFF" android:textColorHint="#888" android:background="#1a1a2e" android:padding="15dp" android:layout_marginBottom="10dp"/>
+        <EditText android:id="@+id/et_whatsapp" android:layout_width="match_parent" android:layout_height="55dp" android:hint="WhatsApp" android:inputType="phone" android:textColor="#FFF" android:textColorHint="#888" android:background="#1a1a2e" android:padding="15dp" android:layout_marginBottom="20dp"/>
+        
+        <RadioGroup android:id="@+id/radio_payment" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="20dp">
+            <RadioButton android:id="@+id/rb_dana" android:text="DANA" android:textColor="#FFF"/>
+            <RadioButton android:id="@+id/rb_gopay" android:text="GoPay" android:textColor="#FFF"/>
+            <RadioButton android:id="@+id/rb_seabank" android:text="SeaBank" android:textColor="#FFF"/>
+        </RadioGroup>
+        
+        <Button android:id="@+id/btn_submit" android:layout_width="match_parent" android:layout_height="55dp" android:text="SUBMIT PESANAN" android:textSize="18sp" android:background="#10b981"/>
+        
+    </LinearLayout>
+</ScrollView>
