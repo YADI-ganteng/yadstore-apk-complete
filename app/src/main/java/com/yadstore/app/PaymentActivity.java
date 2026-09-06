@@ -1,12 +1,19 @@
 package com.yadstore.app;
 
 import android.os.Bundle;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PaymentActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -55,9 +62,7 @@ public class PaymentActivity extends AppCompatActivity {
             return;
         }
         
-        String[] paymentMethods = {"DANA", "GoPay", "SeaBank"};
         String paymentMethod = "";
-        
         if (selectedPaymentId == R.id.rb_dana) {
             paymentMethod = "DANA";
         } else if (selectedPaymentId == R.id.rb_gopay) {
@@ -88,14 +93,14 @@ public class PaymentActivity extends AppCompatActivity {
         order.put("createdAt", System.currentTimeMillis());
         
         db.collection("orders").add(order)
-            .addOnSuccessListener(new com.google.android.gms.tasks.OnSuccessListener<com.google.firebase.firestore.DocumentReference>() {
+            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
-                public void onSuccess(com.google.firebase.firestore.DocumentReference documentReference) {
+                public void onSuccess(DocumentReference documentReference) {
                     Toast.makeText(PaymentActivity.this, "Pesanan berhasil!", Toast.LENGTH_LONG).show();
                     finish();
                 }
             })
-            .addOnFailureListener(new com.google.android.gms.tasks.OnFailureListener() {
+            .addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(Exception e) {
                     Toast.makeText(PaymentActivity.this, "Gagal: " + e.getMessage(), Toast.LENGTH_SHORT).show();
