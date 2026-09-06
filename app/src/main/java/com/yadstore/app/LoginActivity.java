@@ -2,11 +2,14 @@ package com.yadstore.app;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.firebase.auth.*;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import java.util.*;
 
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -28,11 +31,23 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btn_login);
         tvRegister = findViewById(R.id.tv_register);
         
-        btnLogin.setOnClickListener(v -> login());
-        tvRegister.setOnClickListener(v -> startActivity(new Intent(this, RegisterActivity.class)));
+        btnLogin.setOnClickListener(new android.view.View.OnClickListener() {
+            @Override
+            public void onClick(android.view.View v) {
+                login();
+            }
+        });
         
-        if (mAuth.getCurrentUser() != null) {
-            startActivity(new Intent(this, MainActivity.class));
+        tvRegister.setOnClickListener(new android.view.View.OnClickListener() {
+            @Override
+            public void onClick(android.view.View v) {
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+            }
+        });
+        
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }
     }
@@ -47,13 +62,16 @@ public class LoginActivity extends AppCompatActivity {
         }
         
         mAuth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this, task -> {
-                if (task.isSuccessful()) {
-                    Toast.makeText(this, "Login berhasil!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(this, MainActivity.class));
-                    finish();
-                } else {
-                    Toast.makeText(this, "Login gagal!", Toast.LENGTH_LONG).show();
+            .addOnCompleteListener(this, new com.google.android.gms.tasks.OnCompleteListener<com.google.firebase.auth.AuthResult>() {
+                @Override
+                public void onComplete(com.google.android.gms.tasks.Task<com.google.firebase.auth.AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(LoginActivity.this, "Login berhasil!", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        finish();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Login gagal!", Toast.LENGTH_LONG).show();
+                    }
                 }
             });
     }
